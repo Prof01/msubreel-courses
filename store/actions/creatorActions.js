@@ -51,7 +51,7 @@ export const fetchCreator = (id) => () => {
     setTimeout(()=> {
       axios.get(`/api/v1/creators/creator/${id}`)
           .then(res => dispatch({
-              type: CUSTOMER_LOADED,
+              type: CREATOR_LOADED,
               payload: res.data
           }))
           .catch(err =>
@@ -124,7 +124,7 @@ export const fetchCreator = (id) => () => {
   
       axios.put(`/api/v1/creators/${id}/update/admin`, body, config)
           .then(res => dispatch({
-              type: SEND_COIN,
+              type: CREATOR_LOADED,
               payload: res.data
           }))
           .catch(err => {

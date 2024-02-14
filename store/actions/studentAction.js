@@ -98,7 +98,7 @@ export const fetchStudent = (id) => () => {
       setTimeout(()=> {
         axios.post('/api/v1/students/register', body, config)
             .then(res => dispatch({
-                type: ADD_student,
+                type: ADD_STUDENT,
                 payload: res.data
             }))
             .catch(err => {
@@ -126,7 +126,7 @@ export const fetchStudent = (id) => () => {
   
       axios.put(`/api/v1/students/${id}/update/admin`, body, config)
           .then(res => dispatch({
-              type: SEND_COIN,
+              type: STUDENT_LOADED,
               payload: res.data
           }))
           .catch(err => {
