@@ -4,9 +4,12 @@ import {
     ADD_LESSON,
     COURSES_LOADING, 
     COURSE_LOADED, 
+    DELETE_CERTIFICATE, 
     DELETE_COURSE, 
     DELETE_LESSON, 
     FAILED,
+    FETCH_CERTIFICATE,
+    FETCH_CERTIFICATES,
     FETCH_COURSES,
     FETCH_LESSONS,
     LESSONS_LOADING,
@@ -342,7 +345,75 @@ export const deleteALesson = id => () => {
         });
     };
     
+    
+    export const getAllCertificates = () => () => {
+        const { dispatch } = useApplication();
+          dispatch(setCoursesLoading());
+          axios
+            .get(`/api/v1/certificateS/all`)
+            .then(res =>
+              dispatch({
+                type: FETCH_CERTIFICATES,
+                payload: res.data
+              })
+            )
+            .catch(err =>
+              dispatch(returnErrors(err.response.data, err.response.status))
+            );
+      };
 
+    export const getAllCertificatesByCreator = (id) => () => {
+        const { dispatch } = useApplication();
+          dispatch(setCoursesLoading());
+          axios
+            .get(`/api/v1/certificates/creator/id/${id}`)
+            .then(res =>
+              dispatch({
+                type: FETCH_CERTIFICATES,
+                payload: res.data
+            })
+            )
+            .catch(err =>
+                dispatch(returnErrors(err.response.data, err.response.status))
+                );
+            };
+            
+            export const getACertificate = (id) => () => {
+                const { dispatch } = useApplication();
+                dispatch(setCoursesLoading());
+                axios
+                .get(`/api/v1/certificates/certificate/${id}`)
+                .then(res =>
+                    dispatch({
+                        type: FETCH_CERTIFICATE,
+                        payload: res.data
+                    })
+                    )
+                    .catch(err =>
+                        dispatch(returnErrors(err.response.data, err.response.status))
+                        );
+                    };
+                    
+
+export const deleteACertificate = id => () => {
+    const { dispatch } = useApplication();
+    dispatch(setCoursesLoading());
+    axios
+        .delete(`/api/v1/certificates/certificate/${id}`)
+        .then(res =>
+        dispatch({
+            type: DELETE_CERTIFICATE,
+            payload: res.data
+        })
+        )
+        .catch(err =>{
+        dispatch(returnErrors(err.response.data, err.response.status))
+        dispatch({
+            type: FAILED
+        })
+        });
+    };
+    
 export const setCoursesLoading = () => {
     return {
       type: COURSES_LOADING

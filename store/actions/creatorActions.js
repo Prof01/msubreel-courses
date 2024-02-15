@@ -150,7 +150,7 @@ export const fetchCreator = (id) => () => {
               })
           })
   }
-  
+
   //Update creator Info
   export const updateCreatorInfo = ({  firstname, lastname, creatorname, phoneNumber, id } ) => () => {
     const { dispatch } = useApplication();

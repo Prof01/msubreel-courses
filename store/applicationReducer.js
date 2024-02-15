@@ -1,4 +1,5 @@
 import { 
+  ADD_CERTIFICATE,
   ADD_COURSE,
   ADD_CREATOR,
   ADD_CREATOR_MOMO,
@@ -16,6 +17,7 @@ import {
     CREATOR_LOADED,
     CREATOR_LOADING,
     CUSTOMER_LOADED,
+    DELETE_CERTIFICATE,
     DELETE_COURSE,
     DELETE_CREATOR,
     DELETE_CREATOR_MOMO,
@@ -24,6 +26,8 @@ import {
     DELETE_STUDENT_MOMO,
     DELETE_TEST,
     FAILED,
+    FETCH_CERTIFICATE,
+    FETCH_CERTIFICATES,
     FETCH_COURSE,
     FETCH_COURSES,
     FETCH_CREATORS,
@@ -100,22 +104,7 @@ const applicationReducer = (state = initialState, action) => {
                     success: action.payload?.msg,
                     isLoading: false
            };
-      case ADD_CREATOR_MOMO:
-           return {
-            ...state,
-            creator: action.payload?.creator,
-            success: action.payload?.msg,
-            isAuthenticated: true,
-            isLoading: false
-        };
-      case DELETE_CREATOR_MOMO:
-           return {
-            ...state,
-            creator: action.payload?.creator,
-            isAuthenticated: true,
-            isLoading: false
-        };
-            case FETCH_TEST:
+      case FETCH_TEST:
         return { 
           ...state, 
           test: action.payload, 
@@ -139,6 +128,32 @@ const applicationReducer = (state = initialState, action) => {
           return {
               ...state,
               tests: state.tests.filter(test => test._id !== action.payload),
+              isLoading: false,
+          }
+      case FETCH_CERTIFICATE:
+        return { 
+          ...state, 
+          certificate: action.payload, 
+          isLoading: false 
+        };
+      case FETCH_CERTIFICATES:
+        return { 
+          ...state, 
+          certificates: action.payload, 
+          isLoading: false 
+        };
+        case ADD_CERTIFICATE:
+            return {
+                ...state,
+                certificate: action.payload.certificate,
+                success: action.payload.msg,
+                isLoading: false,
+                selectedIndex: 0
+            }
+        case DELETE_CERTIFICATE:
+          return {
+              ...state,
+              certificates: state.certificates.filter(certificate => certificate._id !== action.payload),
               isLoading: false,
           }
       case FETCH_COURSE:

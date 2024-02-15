@@ -174,7 +174,7 @@ export const fetchStudent = (id) => () => {
     const { dispatch } = useApplication();
       dispatch(setStudentsLoading());
     axios
-        .delete(`/api/v1/students/${id}`)
+        .delete(`/api/v1/students/student/${id}`)
         .then(res =>
           dispatch({
             type: DELETE_STUDENT,
@@ -393,7 +393,6 @@ export const fetchStudent = (id) => () => {
           type: "LOGOUT_FAIL"
       }))
   }
-  
   
   export const setStudentsLoading = () => {
       return {
