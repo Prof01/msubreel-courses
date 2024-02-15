@@ -5,11 +5,18 @@ export const COURSES_LOADING = "COURSES_LOADING";
 export const COURSE_LOADED = "COURSES_LOADED";
 export const ADD_COURSE = "ADD_COURSE"
 export const DELETE_COURSE = "DELETE_COURSE"
+export const FETCH_LESSONS = "FETCH_LESSONS";
+export const FETCH_LESSON = "FETCH_LESSON";
+export const LESSONS_LOADING = "LESSONS_LOADING";
+export const LESSON_LOADED = "LESSONS_LOADED";
+export const ADD_LESSON = "ADD_LESSON"
+export const DELETE_LESSON = "DELETE_LESSON"
 export const FETCH_TESTS = "FETCH_TESTS";
 export const FETCH_TEST = "FETCH_TEST";
 export const ADD_TEST = "ADD_TEST"
 export const DELETE_TEST = "DELETE_TEST"
 export const SEND_CODE = "SEND_CODE"
+export const CLEAR_TYPE = "CLEAR_TYPE"
 
 //STUDENTS ACTION TYPES
 export const FETCH_STUDENTS = "FETCH_STUDENTS";
