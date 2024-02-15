@@ -10,6 +10,7 @@ import {
     FAILED,
     FETCH_CERTIFICATE,
     FETCH_CERTIFICATES,
+    FETCH_CHATS,
     FETCH_COURSES,
     FETCH_LESSONS,
     LESSONS_LOADING,
@@ -378,42 +379,58 @@ export const deleteALesson = id => () => {
                 );
             };
             
-            export const getACertificate = (id) => () => {
-                const { dispatch } = useApplication();
-                dispatch(setCoursesLoading());
-                axios
-                .get(`/api/v1/certificates/certificate/${id}`)
-                .then(res =>
-                    dispatch({
-                        type: FETCH_CERTIFICATE,
-                        payload: res.data
-                    })
-                    )
-                    .catch(err =>
-                        dispatch(returnErrors(err.response.data, err.response.status))
-                        );
-                    };
-                    
-
-export const deleteACertificate = id => () => {
-    const { dispatch } = useApplication();
-    dispatch(setCoursesLoading());
-    axios
+export const getACertificate = (id) => () => {
+  const { dispatch } = useApplication();
+  dispatch(setCoursesLoading());
+  axios
+  .get(`/api/v1/certificates/certificate/${id}`)
+  .then(res =>
+      dispatch({
+          type: FETCH_CERTIFICATE,
+          payload: res.data
+      })
+      )
+      .catch(err =>
+          dispatch(returnErrors(err.response.data, err.response.status))
+          );
+      };
+      
+      
+      export const deleteACertificate = id => () => {
+        const { dispatch } = useApplication();
+        dispatch(setCoursesLoading());
+        axios
         .delete(`/api/v1/certificates/certificate/${id}`)
         .then(res =>
-        dispatch({
+          dispatch({
             type: DELETE_CERTIFICATE,
             payload: res.data
-        })
-        )
-        .catch(err =>{
-        dispatch(returnErrors(err.response.data, err.response.status))
-        dispatch({
-            type: FAILED
-        })
-        });
-    };
-    
+          })
+          )
+          .catch(err =>{
+            dispatch(returnErrors(err.response.data, err.response.status))
+            dispatch({
+              type: FAILED
+            })
+          });
+        };
+        
+export const getChatsFromAChartRoom = (id) => () => {
+  const { dispatch } = useApplication();
+  dispatch(setCoursesLoading());
+  axios
+  .get(`/api/v1/chatrooms/${id}`)
+  .then(res =>
+      dispatch({
+          type: FETCH_CHATS,
+          payload: res.data
+      })
+      )
+      .catch(err =>
+          dispatch(returnErrors(err.response.data, err.response.status))
+          );
+      };
+      
 export const setCoursesLoading = () => {
     return {
       type: COURSES_LOADING

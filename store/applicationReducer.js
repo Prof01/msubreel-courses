@@ -28,6 +28,7 @@ import {
     FAILED,
     FETCH_CERTIFICATE,
     FETCH_CERTIFICATES,
+    FETCH_CHATS,
     FETCH_COURSE,
     FETCH_COURSES,
     FETCH_CREATORS,
@@ -61,6 +62,7 @@ const initialState = {
     lessons: [],
     certificate: null,
     certificates: [],
+    chats: [],
     isLoading: false,
     isAuthenticated: false,
     test: null,
@@ -149,13 +151,19 @@ const applicationReducer = (state = initialState, action) => {
                 success: action.payload.msg,
                 isLoading: false,
                 selectedIndex: 0
-            }
-        case DELETE_CERTIFICATE:
-          return {
-              ...state,
-              certificates: state.certificates.filter(certificate => certificate._id !== action.payload),
-              isLoading: false,
-          }
+              }
+              case DELETE_CERTIFICATE:
+                return {
+                  ...state,
+                  certificates: state.certificates.filter(certificate => certificate._id !== action.payload),
+                  isLoading: false,
+                }
+    case FETCH_CHATS:
+      return { 
+        ...state, 
+        chats: action.payload, 
+        isLoading: false 
+      };
       case FETCH_COURSE:
         return { 
           ...state, 
