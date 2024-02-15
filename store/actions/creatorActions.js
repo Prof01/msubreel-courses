@@ -44,7 +44,7 @@ export const loadCreator = () => () => {
 
   
 //Load a Creator
-export const fetchCreator = (id) => () => {
+export const fetchACreator = (id) => () => {
     const { dispatch } = useApplication();
     //Creator loading
     dispatch({ type: CREATOR_LOADING });

@@ -12,12 +12,15 @@ import {
     CHANGE_FAIL,
     CHANGE_PASSWORD,
     CHANGE_PIN,
+    CLEAR_CHATS,
     CLEAR_SUCCESS,
     CLEAR_TYPE,
     CREATOR_LOADED,
     CREATOR_LOADING,
     CUSTOMER_LOADED,
     DELETE_CERTIFICATE,
+    DELETE_CHAT,
+    DELETE_CHATROOM,
     DELETE_COURSE,
     DELETE_CREATOR,
     DELETE_CREATOR_MOMO,
@@ -28,6 +31,8 @@ import {
     FAILED,
     FETCH_CERTIFICATE,
     FETCH_CERTIFICATES,
+    FETCH_CHATROOM,
+    FETCH_CHATROOMS,
     FETCH_CHATS,
     FETCH_COURSE,
     FETCH_COURSES,
@@ -63,6 +68,8 @@ const initialState = {
     certificate: null,
     certificates: [],
     chats: [],
+    chatroom: null,
+    chatrooms: [],
     isLoading: false,
     isAuthenticated: false,
     test: null,
@@ -164,6 +171,36 @@ const applicationReducer = (state = initialState, action) => {
         chats: action.payload, 
         isLoading: false 
       };
+    case FETCH_CHATROOMS:
+      return { 
+        ...state, 
+        chatrooms: action.payload, 
+        isLoading: false 
+      };
+    case FETCH_CHATROOM:
+      return { 
+        ...state, 
+        chatroom: action.payload, 
+        isLoading: false 
+      };
+    case DELETE_CHAT:
+        return {
+            ...state,
+            chats: state.chats.filter(chat => chat._id !== action.payload),
+            isLoading: false,
+        }
+    case CLEAR_CHATS:
+        return {
+            ...state,
+            chats: state.chats.filter(chat => chat._id !== action.payload),
+            isLoading: false,
+        }
+    case DELETE_CHATROOM:
+        return {
+            ...state,
+            chatroom: action.payload,
+            isLoading: false,
+        }
       case FETCH_COURSE:
         return { 
           ...state, 

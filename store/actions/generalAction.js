@@ -2,14 +2,19 @@ import { useApplication } from "../applicationContext";
 import { 
     ADD_COURSE,
     ADD_LESSON,
+    CLEAR_CHATS,
     COURSES_LOADING, 
     COURSE_LOADED, 
     DELETE_CERTIFICATE, 
+    DELETE_CHAT, 
+    DELETE_CHATROOM, 
     DELETE_COURSE, 
     DELETE_LESSON, 
     FAILED,
     FETCH_CERTIFICATE,
     FETCH_CERTIFICATES,
+    FETCH_CHATROOM,
+    FETCH_CHATROOMS,
     FETCH_CHATS,
     FETCH_COURSES,
     FETCH_LESSONS,
@@ -415,22 +420,112 @@ export const getACertificate = (id) => () => {
           });
         };
         
-export const getChatsFromAChartRoom = (id) => () => {
-  const { dispatch } = useApplication();
+        export const getChatsAllChatRooms = () => () => {
+          const { dispatch } = useApplication();
   dispatch(setCoursesLoading());
   axios
-  .get(`/api/v1/chatrooms/${id}`)
+  .get(`/api/v1/chatrooms`)
   .then(res =>
       dispatch({
-          type: FETCH_CHATS,
+          type: FETCH_CHATROOMS,
           payload: res.data
       })
       )
       .catch(err =>
-          dispatch(returnErrors(err.response.data, err.response.status))
-          );
+        dispatch(returnErrors(err.response.data, err.response.status))
+        );
       };
       
+export const getAChatRoom = (id) => () => {
+const { dispatch } = useApplication();
+dispatch(setCoursesLoading());
+axios
+.get(`/api/v1/chatrooms/${id}`)
+.then(res =>
+dispatch({
+  type: FETCH_CHATROOM,
+  payload: res.data
+})
+)
+.catch(err =>
+  dispatch(returnErrors(err.response.data, err.response.status))
+  );
+};
+
+export const getChatsFromAChatRoom = (id) => () => {
+  const { dispatch } = useApplication();
+  dispatch(setCoursesLoading());
+  axios
+  .get(`/api/v1/chatrooms/${id}/chats`)
+  .then(res =>
+    dispatch({
+      type: FETCH_CHATS,
+      payload: res.data
+    })
+    )
+    .catch(err =>
+      dispatch(returnErrors(err.response.data, err.response.status))
+      );
+    };
+    
+  export const deleteAChatRoom = id => () => {
+    const { dispatch } = useApplication();
+    dispatch(setCoursesLoading());
+    axios
+    .delete(`/api/v1/chatroom/${id}`)
+    .then(res =>
+      dispatch({
+        type: DELETE_CHATROOM,
+        payload: res.data
+      })
+      )
+      .catch(err =>{
+        dispatch(returnErrors(err.response.data, err.response.status))
+        dispatch({
+          type: FAILED
+        })
+      });
+    };
+              
+    
+  export const deleteAChat = id => () => {
+    const { dispatch } = useApplication();
+    dispatch(setCoursesLoading());
+    axios
+    .delete(`/api/v1/chats/${id}`)
+    .then(res =>
+      dispatch({
+        type: DELETE_CHAT,
+        payload: res.data
+      })
+      )
+      .catch(err =>{
+        dispatch(returnErrors(err.response.data, err.response.status))
+        dispatch({
+          type: FAILED
+        })
+      });
+    };
+              
+  export const clearChats = id => () => {
+    const { dispatch } = useApplication();
+    dispatch(setCoursesLoading());
+    axios
+    .delete(`/api/v1/chatroom/${id}/chats/clear`)
+    .then(res =>
+      dispatch({
+        type: CLEAR_CHATS,
+        payload: res.data
+      })
+      )
+      .catch(err =>{
+        dispatch(returnErrors(err.response.data, err.response.status))
+        dispatch({
+          type: FAILED
+        })
+      });
+    };
+    
 export const setCoursesLoading = () => {
     return {
       type: COURSES_LOADING
