@@ -102,10 +102,10 @@ export const fetchABalance = (id) => () => {
       //Request body
       const body = JSON.stringify({ 
         courseId,
-    phoneNumber,
-    paymentMethod,
-    couponCode,
-    type });
+        phoneNumber,
+        paymentMethod,
+        couponCode,
+        type });
       
       setTimeout(()=> {
         axios.post('/api/v1/paystack/invoice', body, config)
