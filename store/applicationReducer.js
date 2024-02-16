@@ -24,11 +24,13 @@ import {
     DELETE_COURSE,
     DELETE_CREATOR,
     DELETE_CREATOR_MOMO,
+    DELETE_INVOICE,
     DELETE_LESSON,
     DELETE_STUDENT,
     DELETE_STUDENT_MOMO,
     DELETE_TEST,
     FAILED,
+    FETCH_BALANCE,
     FETCH_CERTIFICATE,
     FETCH_CERTIFICATES,
     FETCH_CHATROOM,
@@ -37,6 +39,8 @@ import {
     FETCH_COURSE,
     FETCH_COURSES,
     FETCH_CREATORS,
+    FETCH_INVOICE,
+    FETCH_INVOICES,
     FETCH_LESSON,
     FETCH_LESSONS,
     FETCH_STUDENT, 
@@ -70,6 +74,9 @@ const initialState = {
     chats: [],
     chatroom: null,
     chatrooms: [],
+    invoice: null,
+    invoices: [],
+    balance: null,
     isLoading: false,
     isAuthenticated: false,
     test: null,
@@ -189,18 +196,42 @@ const applicationReducer = (state = initialState, action) => {
             chats: state.chats.filter(chat => chat._id !== action.payload),
             isLoading: false,
         }
-    case CLEAR_CHATS:
-        return {
+        case CLEAR_CHATS:
+          return {
             ...state,
             chats: state.chats.filter(chat => chat._id !== action.payload),
             isLoading: false,
-        }
-    case DELETE_CHATROOM:
-        return {
+          }
+          case DELETE_CHATROOM:
+            return {
+              ...state,
+              chatroom: action.payload,
+              isLoading: false,
+            }
+      case FETCH_INVOICES:
+        return { 
+          ...state, 
+          invoices: action.payload, 
+          isLoading: false 
+        };
+      case FETCH_INVOICE:
+        return { 
+          ...state, 
+          invoice: action.payload, 
+          isLoading: false 
+        };
+        case DELETE_INVOICE:
+          return {
             ...state,
-            chatroom: action.payload,
+            invoices: state.invoices.filter(invoice => invoice._id !== action.payload),
             isLoading: false,
-        }
+          }
+      case FETCH_BALANCE:
+        return { 
+          ...state, 
+          balance: action.payload, 
+          isLoading: false 
+        };
       case FETCH_COURSE:
         return { 
           ...state, 

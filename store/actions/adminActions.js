@@ -124,8 +124,8 @@ export const fetchACreator = (id) => () => {
       }, 15000)
   }
   
-  //Update creator Info
-  export const updateCreatorInfo = ({  firstname, lastname, phoneNumber, id } ) => () => {
+  //Update Creator Info By Admin
+  export const updateCustomerInfo = ({  firstname, lastname, phoneNumber, id } ) => () => {
     const { dispatch } = useApplication();
       dispatch(setCreatorsLoading());
     //Headers
@@ -137,6 +137,33 @@ export const fetchACreator = (id) => () => {
   
       //Request body
       const body = JSON.stringify({ firstname, lastname, phoneNumber });
+  
+      axios.put(`/api/v1/creators/${id}/update/admin`, body, config)
+          .then(res => dispatch({
+              type: CREATOR_LOADED,
+              payload: res.data
+          }))
+          .catch(err => {
+              dispatch(returnErrors(err.response.data, err.response.status, 'ADD_CREATORCARD_FAILED'));
+              dispatch({
+                  type: ADD_CREATORCARD_FAILED
+              })
+          })
+  }
+
+  //Update creator Info
+  export const updateCreatorInfo = ({  firstname, lastname, creatorname, phoneNumber, id } ) => () => {
+    const { dispatch } = useApplication();
+      dispatch(setCreatorsLoading());
+    //Headers
+      const config = {
+          headers: {
+              'Content-type': 'application/json'
+          }
+      };
+  
+      //Request body
+      const body = JSON.stringify({ firstname, lastname, creatorname, phoneNumber });
   
       axios.put(`/api/v1/creators/${id}/update`, body, config)
           .then(res => dispatch({
