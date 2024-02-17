@@ -9,17 +9,17 @@ const ApplicationContext = createContext();
 
 const ApplicationProvider = ({ children }) => {
     const applicationRef = useRef(null);
-  
+    const [state, dispatch] = useReducer(applicationReducer, initialState);
+
     useEffect(() => {
-      loadCreator()
-      loadStudent()
+      loadCreator(dispatch)
+      loadStudent(dispatch)
       // Create the application instance only on the client side
-      if (typeof window !== 'undefined') {
-        applicationRef.current = new window.application();
-      }
+      // if (typeof window !== 'undefined') {
+      //   applicationRef.current = new window.application();
+      // }
     }, []);
   
-    const [state, dispatch] = useReducer(applicationReducer, initialState);
       
     return (
       <ApplicationContext.Provider value={{ state, dispatch, applicationRef }}>

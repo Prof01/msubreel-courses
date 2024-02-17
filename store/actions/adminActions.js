@@ -21,8 +21,7 @@ import { returnErrors } from './errorActions';
 import { useApplication } from '../applicationContext';
 
 
-export const loadAdmin = () => () => {
-    const { dispatch } = useApplication();
+export const loadAdmin = (dispatch) => {
     //Creator loading
     dispatch({ type: CREATOR_LOADING });
   
@@ -42,8 +41,7 @@ export const loadAdmin = () => () => {
 
   
 //Load a Admin
-export const fetchAnAdmin = (id) => () => {
-    const { dispatch } = useApplication();
+export const fetchAnAdmin =  ({dispatch, id}) => {
     //Admin loading
     dispatch({ type: CREATOR_LOADING });
   
@@ -59,8 +57,7 @@ export const fetchAnAdmin = (id) => () => {
         }, 5000)
   };
   
-  export const getAdmins = () => () => {
-    const { dispatch } = useApplication();
+  export const getAdmins = (dispatch) => {
       dispatch(setAdminsLoading());
       axios
         .get('/api/v1/admins')
@@ -78,6 +75,7 @@ export const fetchAnAdmin = (id) => () => {
   
   //Register admin
   export const registerAdmin = ({  
+    dispatch,
     password,
     email,
     firstname,
@@ -86,8 +84,7 @@ export const fetchAnAdmin = (id) => () => {
     username, 
     referalCode, 
     token 
-} ) => () => {
-    const { dispatch } = useApplication();
+} ) =>  {
       dispatch(setAdminsLoading());
     //Headers
       const config = {
@@ -123,8 +120,7 @@ export const fetchAnAdmin = (id) => () => {
   }
   
   //Update admin Info
-  export const updateAdminInfo = ({  firstname, lastname, adminname, phoneNumber, id } ) => () => {
-    const { dispatch } = useApplication();
+  export const updateAdminInfo = ({  dispatch, firstname, lastname, adminname, phoneNumber, id } ) => {
       dispatch(setAdminsLoading());
     //Headers
       const config = {
@@ -149,8 +145,7 @@ export const fetchAnAdmin = (id) => () => {
           })
   }
   
-  export const deleteAdmin = id => () => {
-    const { dispatch } = useApplication();
+  export const deleteAdmin = ({dispatch, id}) => {
       dispatch(setAdminsLoading());
     axios
         .delete(`/api/v1/admins/admin/${id}`)
@@ -170,8 +165,7 @@ export const fetchAnAdmin = (id) => () => {
     
     
   //LOGIN
-  export const loginAdmin = ({ email, password, token, ip }) => () => {
-    const { dispatch } = useApplication();
+  export const loginAdmin = ({ dispatch, email, password, token, ip }) => {
       dispatch(setAdminsLoading());
     //Headers
       const config = {
@@ -197,8 +191,7 @@ export const fetchAnAdmin = (id) => () => {
   }
   
   
-  export const updateadminProfileImage = (body) => () => {
-    const { dispatch } = useApplication();
+  export const updateadminProfileImage = ({dispatch, body}) => {
       dispatch(setAdminsLoading());
   
       axios.put(`/api/v1/admins/admin/avatar`, body)
@@ -214,8 +207,7 @@ export const fetchAnAdmin = (id) => () => {
           })
   }
   
-  export const changeAdminPassword = ({ id, password, password2, password1 }) => () => {
-    const { dispatch } = useApplication();
+  export const changeAdminPassword = ({ dispatch, id, password, password2, password1 }) => {
       dispatch(setAdminsLoading());
     //Headers
       const config = {
@@ -240,8 +232,7 @@ export const fetchAnAdmin = (id) => () => {
           })
   }
   
-  export const verifyAccount = ({ emailCode:code }) => () => {
-    const { dispatch } = useApplication();
+  export const verifyAccount = ({ dispatch, emailCode:code }) => {
       dispatch(setAdminsLoading());
     //Headers
       const config = {
@@ -266,8 +257,7 @@ export const fetchAnAdmin = (id) => () => {
           })
   }
   
-  export const resendEmailVerificationCode = () => () => {
-    const { dispatch } = useApplication();
+  export const resendEmailVerificationCode = (dispatch) => {
       dispatch(setAdminsLoading());
   
       axios.post(`/api/v1/admins/send-emailcode`)
@@ -283,8 +273,7 @@ export const fetchAnAdmin = (id) => () => {
           })
   }
   
-  export const resendEmailVerificationCodeSMS = () => () => {
-    const { dispatch } = useApplication();
+  export const resendEmailVerificationCodeSMS = (dispatch) => {
       dispatch(setAdminsLoading());
   
       axios.post(`/api/v1/admins/send-emailcode/sms`)
@@ -300,8 +289,7 @@ export const fetchAnAdmin = (id) => () => {
           })
   }
   
-  export const resetAdminPasswordMail = ({ email, token }) => () => {
-    const { dispatch } = useApplication();
+  export const resetAdminPasswordMail = ({ dispatch, email, token }) => {
       dispatch(setAdminsLoading());
     //Headers
       const config = {
@@ -326,8 +314,7 @@ export const fetchAnAdmin = (id) => () => {
           })
   }
   
-  export const resetAdminPassword = ({ email, password, password2, resetCode, token }) => () => {
-    const { dispatch } = useApplication();
+  export const resetAdminPassword = ({ dispatch, email, password, password2, resetCode, token }) => {
       dispatch(setAdminsLoading());
     //Headers
       const config = {
@@ -360,8 +347,7 @@ export const fetchAnAdmin = (id) => () => {
   };
   
   //logout
-  export const logout = () => () => {
-    const { dispatch } = useApplication();
+  export const logout = (dispatch) => {
       dispatch(setAdminsLoading());
     axios
       .get('/api/v1/admins/admin/logout')

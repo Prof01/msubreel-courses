@@ -25,8 +25,7 @@ import { returnErrors } from "./errorActions";
 
  
 //Load a course
-export const fetchACourse = (id) => () => {
-    const { dispatch } = useApplication();
+export const fetchACourse = ({dispatch, id}) => {
     //student loading
     dispatch({ type: COURSES_LOADING });
   
@@ -42,8 +41,7 @@ export const fetchACourse = (id) => () => {
         }, 5000)
   };
   
-  export const getAllCourses = () => () => {
-    const { dispatch } = useApplication();
+  export const getAllCourses = (dispatch) => {
       dispatch(setCoursesLoading());
       axios
         .get('/api/v1/courses/all')
@@ -59,8 +57,7 @@ export const fetchACourse = (id) => () => {
   };
   
   
-  export const getSponsoredCourses = () => () => {
-    const { dispatch } = useApplication();
+  export const getSponsoredCourses = (dispatch) => {
       dispatch(setCoursesLoading());
       axios
         .get('/api/v1/courses/sponsored/all')
@@ -76,8 +73,7 @@ export const fetchACourse = (id) => () => {
   };
   
   
-  export const getApprovedCourses = () => () => {
-    const { dispatch } = useApplication();
+  export const getApprovedCourses = (dispatch) => {
       dispatch(setCoursesLoading());
       axios
         .get('/api/v1/courses/approved/all')
@@ -93,8 +89,7 @@ export const fetchACourse = (id) => () => {
   };
   
   
-  export const getAllCoursesByCreatorId = (creatorId) => () => {
-    const { dispatch } = useApplication();
+  export const getAllCoursesByCreatorId = ({dispatch, creatorId}) => {
       dispatch(setCoursesLoading());
       axios
         .get(`/api/v1/courses/creator/id/${creatorId}`)
@@ -110,8 +105,7 @@ export const fetchACourse = (id) => () => {
   };
   
   
-  export const getAllCoursesByCreatorUsername = (username) => () => {
-    const { dispatch } = useApplication();
+  export const getAllCoursesByCreatorUsername = ({dispatch, username}) => {
       dispatch(setCoursesLoading());
       axios
         .get(`/api/v1/courses/creator/name/${username}`)
@@ -128,7 +122,9 @@ export const fetchACourse = (id) => () => {
   
   
   //Add Course
-  export const addNewCourse = ({ schoolname,
+  export const addNewCourse = ({ 
+    dispatch,
+    schoolname,
       courseIntroVideo,
       schoolImage,
       title,
@@ -138,7 +134,7 @@ export const fetchACourse = (id) => () => {
       courseOutline,
       shortDescription,
       longDescription,
-      discount  } ) => dispatch => {
+      discount  } ) => {
     dispatch(setCoursesLoading());  
     //Headers
       const config = {
@@ -175,7 +171,9 @@ export const fetchACourse = (id) => () => {
 
   
   //Update a Course Info
-  export const updateACourse = ({  schoolname,
+  export const updateACourse = ({  
+    dispatch,
+    schoolname,
     courseIntroVideo,
     schoolImage,
     title,
@@ -186,8 +184,7 @@ export const fetchACourse = (id) => () => {
     shortDescription,
     longDescription,
     discount,
-     id } ) => () => {
-    const { dispatch } = useApplication();
+     id } ) => {
       dispatch(setCoursesLoading());
     //Headers
       const config = {
@@ -223,8 +220,7 @@ export const fetchACourse = (id) => () => {
           })
   }
   
-export const deleteACourse = id => () => {
-    const { dispatch } = useApplication();
+export const deleteACourse = ({dispatch, id}) => {
       dispatch(setCoursesLoading());
     axios
         .delete(`/api/v1/courses/${id}`)
@@ -244,8 +240,7 @@ export const deleteACourse = id => () => {
     
  
 //Load a lesson
-export const fetchALesson = (id) => () => {
-    const { dispatch } = useApplication();
+export const fetchALesson = ({dispatch, id}) => {
     //student loading
     dispatch({ type: LESSONS_LOADING });
   
@@ -261,8 +256,7 @@ export const fetchALesson = (id) => () => {
         }, 5000)
   };
   
-  export const getLessons = (id) => () => {
-    const { dispatch } = useApplication();
+  export const getLessons = ({dispatch, id}) => {
       dispatch(setCoursesLoading());
       axios
         .get(`/api/v1/courses/course/${id}/lessons`)
@@ -279,7 +273,7 @@ export const fetchALesson = (id) => () => {
   
   
   //Add lesson
-  export const addNewLesson = ({ title, school, duration  } ) => dispatch => {
+  export const addNewLesson = ({ dispatch, title, school, duration  } ) => {
     dispatch(setCoursesLoading());  
     //Headers
       const config = {
@@ -306,8 +300,7 @@ export const fetchALesson = (id) => () => {
 
   
   //Update a lesson Info
-  export const updateALesson = ({  title, school, duration, id } ) => () => {
-    const { dispatch } = useApplication();
+  export const updateALesson = ({  dispatch, title, school, duration, id } ) => {
       dispatch(setCoursesLoading());
     //Headers
       const config = {
@@ -332,8 +325,7 @@ export const fetchALesson = (id) => () => {
           })
   }
   
-export const deleteALesson = id => () => {
-    const { dispatch } = useApplication();
+export const deleteALesson = ({dispatch, id}) => {
       dispatch(setCoursesLoading());
     axios
         .delete(`/api/v1/courses/lessons/${id}`)
@@ -352,8 +344,7 @@ export const deleteALesson = id => () => {
     };
     
     
-    export const getAllCertificates = () => () => {
-        const { dispatch } = useApplication();
+    export const getAllCertificates = (dispatch) => {
           dispatch(setCoursesLoading());
           axios
             .get(`/api/v1/certificateS/all`)
@@ -368,8 +359,7 @@ export const deleteALesson = id => () => {
             );
       };
 
-    export const getAllCertificatesByCreator = (id) => () => {
-        const { dispatch } = useApplication();
+    export const getAllCertificatesByCreator = ({dispatch, id}) => {
           dispatch(setCoursesLoading());
           axios
             .get(`/api/v1/certificates/creator/id/${id}`)
@@ -384,8 +374,7 @@ export const deleteALesson = id => () => {
                 );
             };
             
-export const getACertificate = (id) => () => {
-  const { dispatch } = useApplication();
+export const getACertificate = ({dispatch, id}) => {
   dispatch(setCoursesLoading());
   axios
   .get(`/api/v1/certificates/certificate/${id}`)
@@ -420,8 +409,7 @@ export const getACertificate = (id) => () => {
           });
         };
         
-        export const getChatsAllChatRooms = () => () => {
-          const { dispatch } = useApplication();
+export const getChatsAllChatRooms = (dispatch) => {
   dispatch(setCoursesLoading());
   axios
   .get(`/api/v1/chatrooms`)
@@ -436,8 +424,7 @@ export const getACertificate = (id) => () => {
         );
       };
       
-export const getAChatRoom = (id) => () => {
-const { dispatch } = useApplication();
+export const getAChatRoom = ({dispatch, id}) => {
 dispatch(setCoursesLoading());
 axios
 .get(`/api/v1/chatrooms/${id}`)
@@ -452,8 +439,7 @@ dispatch({
   );
 };
 
-export const getChatsFromAChatRoom = (id) => () => {
-  const { dispatch } = useApplication();
+export const getChatsFromAChatRoom = ({dispatch, id}) => {
   dispatch(setCoursesLoading());
   axios
   .get(`/api/v1/chatrooms/${id}/chats`)
@@ -468,8 +454,7 @@ export const getChatsFromAChatRoom = (id) => () => {
       );
     };
     
-  export const deleteAChatRoom = id => () => {
-    const { dispatch } = useApplication();
+  export const deleteAChatRoom = ({dispatch, id}) => {
     dispatch(setCoursesLoading());
     axios
     .delete(`/api/v1/chatroom/${id}`)
@@ -488,8 +473,7 @@ export const getChatsFromAChatRoom = (id) => () => {
     };
               
     
-  export const deleteAChat = id => () => {
-    const { dispatch } = useApplication();
+  export const deleteAChat = ({dispatch, id}) => {
     dispatch(setCoursesLoading());
     axios
     .delete(`/api/v1/chats/${id}`)
@@ -507,8 +491,7 @@ export const getChatsFromAChatRoom = (id) => () => {
       });
     };
               
-  export const clearChats = id => () => {
-    const { dispatch } = useApplication();
+  export const clearChats = ({dispatch, id}) => {
     dispatch(setCoursesLoading());
     axios
     .delete(`/api/v1/chatroom/${id}/chats/clear`)

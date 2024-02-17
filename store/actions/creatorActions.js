@@ -20,11 +20,9 @@ import {
     VERIFY_SUCCESS
  } from "./actionTypes";
 import { returnErrors } from './errorActions';
-import { useApplication } from '../applicationContext';
 
 
-export const loadCreator = () => () => {
-    const { dispatch } = useApplication();
+export const loadCreator = (dispatch) => {
     //Creator loading
     dispatch({ type: CREATOR_LOADING });
   
@@ -44,8 +42,7 @@ export const loadCreator = () => () => {
 
   
 //Load a Creator
-export const fetchACreator = (id) => () => {
-    const { dispatch } = useApplication();
+export const fetchACreator = (dispatch, id) => {
     //Creator loading
     dispatch({ type: CREATOR_LOADING });
   
@@ -61,8 +58,7 @@ export const fetchACreator = (id) => () => {
         }, 5000)
   };
   
-  export const getCreators = () => () => {
-    const { dispatch } = useApplication();
+  export const getCreators = (dispatch) => {
       dispatch(setCreatorsLoading());
       axios
         .get('/api/v1/creators')
@@ -80,6 +76,7 @@ export const fetchACreator = (id) => () => {
   
   //Register Creator
   export const registerCreator = ({  
+    dispatch,
     password,
     email,
     firstname,
@@ -88,8 +85,7 @@ export const fetchACreator = (id) => () => {
     username, 
     referalCode, 
     token 
-} ) => () => {
-    const { dispatch } = useApplication();
+} ) => {
       dispatch(setCreatorsLoading());
     //Headers
       const config = {
@@ -125,8 +121,7 @@ export const fetchACreator = (id) => () => {
   }
   
   //Update creator Info
-  export const updateCreatorInfo = ({  firstname, lastname, phoneNumber, id } ) => () => {
-    const { dispatch } = useApplication();
+  export const updateCreatorInfo = ({  dispatch, firstname, lastname, phoneNumber, id } ) => {
       dispatch(setCreatorsLoading());
     //Headers
       const config = {
@@ -151,8 +146,7 @@ export const fetchACreator = (id) => () => {
           })
   }
   
-  export const deleteCreator = id => () => {
-    const { dispatch } = useApplication();
+  export const deleteCreator = ({dispatch, id}) => {
       dispatch(setCreatorsLoading());
     axios
         .delete(`/api/v1/creators/creator/${id}`)
@@ -172,8 +166,7 @@ export const fetchACreator = (id) => () => {
     
     
   //LOGIN
-  export const loginCreator = ({ email, password, token, ip }) => () => {
-    const { dispatch } = useApplication();
+  export const loginCreator = ({ dispatch, email, password, token, ip }) => {
       dispatch(setCreatorsLoading());
     //Headers
       const config = {
@@ -199,8 +192,7 @@ export const fetchACreator = (id) => () => {
   }
   
   
-  export const updateCreatorProfileImage = (body) => () => {
-    const { dispatch } = useApplication();
+  export const updateCreatorProfileImage =  ({body, dispatch}) => {
       dispatch(setCreatorsLoading());
   
       axios.put(`/api/v1/creators/creator/avatar`, body)
@@ -216,8 +208,7 @@ export const fetchACreator = (id) => () => {
           })
   }
   
-  export const changeCreatorPassword = ({ id, password, password2, password1 }) => () => {
-    const { dispatch } = useApplication();
+  export const changeCreatorPassword = ({ dispatch, id, password, password2, password1 }) => {
       dispatch(setCreatorsLoading());
     //Headers
       const config = {
@@ -242,8 +233,7 @@ export const fetchACreator = (id) => () => {
           })
   }
   
-  export const verifyAccount = ({ emailCode:code }) => () => {
-    const { dispatch } = useApplication();
+  export const verifyAccount = ({ dispatch, emailCode:code }) => {
       dispatch(setCreatorsLoading());
     //Headers
       const config = {
@@ -268,8 +258,7 @@ export const fetchACreator = (id) => () => {
           })
   }
   
-  export const resendEmailVerificationCode = () => () => {
-    const { dispatch } = useApplication();
+  export const resendEmailVerificationCode = (dispatch) => {
       dispatch(setCreatorsLoading());
   
       axios.post(`/api/v1/creators/send-emailcode`)
@@ -285,8 +274,7 @@ export const fetchACreator = (id) => () => {
           })
   }
   
-  export const resendEmailVerificationCodeSMS = () => () => {
-    const { dispatch } = useApplication();
+  export const resendEmailVerificationCodeSMS = (dispatch) => {
       dispatch(setCreatorsLoading());
   
       axios.post(`/api/v1/creators/send-emailcode/sms`)
@@ -302,8 +290,7 @@ export const fetchACreator = (id) => () => {
           })
   }
   
-  export const resetCreatorPasswordMail = ({ email, token }) => () => {
-    const { dispatch } = useApplication();
+  export const resetCreatorPasswordMail = ({ dispatch, email, token }) => {
       dispatch(setCreatorsLoading());
     //Headers
       const config = {
@@ -328,8 +315,7 @@ export const fetchACreator = (id) => () => {
           })
   }
   
-  export const resetCreatorPassword = ({ email, password, password2, resetCode, token }) => () => {
-    const { dispatch } = useApplication();
+  export const resetCreatorPassword = ({ dispatch, email, password, password2, resetCode, token }) => {
       dispatch(setCreatorsLoading());
     //Headers
       const config = {
@@ -362,8 +348,7 @@ export const fetchACreator = (id) => () => {
   };
   
   //logout
-  export const logout = () => () => {
-    const { dispatch } = useApplication();
+  export const logout = (dispatch) => {
       dispatch(setCreatorsLoading());
     axios
       .get('/api/v1/creators/creator/logout')

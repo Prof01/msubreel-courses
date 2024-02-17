@@ -443,12 +443,6 @@ case ADMIN_LOADED:
               isAuthenticated: false,
               isLoading: false
           }
-      case ADD_STUDENTCARD_FAILED:
-          return {
-              ...state,
-              isAuthenticated: true,
-              isLoading: false
-          }
       case SIGNUP_FAIL:
           return {
               ...state,

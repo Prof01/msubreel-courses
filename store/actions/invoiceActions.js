@@ -1,6 +1,5 @@
 import axios from 'axios';
 import { returnErrors } from './errorActions';
-import { useApplication } from '../applicationContext';
 import { 
     ADD_INVOICE,
     CLEAR_SUCCESS, 
@@ -13,8 +12,7 @@ import {
  } from './actionTypes';
 
 //Load a Invoice
-export const fetchAnInvoice = (id) => () => {
-    const { dispatch } = useApplication();
+export const fetchAnInvoice = ({dispatch, id}) => {
     //Creator loading
     dispatch({ type: CREATOR_LOADING });
   
@@ -31,8 +29,7 @@ export const fetchAnInvoice = (id) => () => {
   };
   
 //Load a Balance
-export const fetchABalance = (id) => () => {
-    const { dispatch } = useApplication();
+export const fetchABalance = (dispatch) => {
     //Creator loading
     dispatch({ type: CREATOR_LOADING });
   
@@ -48,8 +45,7 @@ export const fetchABalance = (id) => () => {
         }, 5000)
   };
   
-  export const getInvoices = () => () => {
-    const { dispatch } = useApplication();
+  export const getInvoices = (dispatch) => {
       dispatch(setInvoicesLoading());
       axios
         .get('/api/v1/invoices')
@@ -65,8 +61,7 @@ export const fetchABalance = (id) => () => {
   };
   
   
-  export const getCreatorInvoices = () => () => {
-    const { dispatch } = useApplication();
+  export const getCreatorInvoices = (dispatch) => {
       dispatch(setInvoicesLoading());
       axios
         .get('/api/v1/invoices/creator')
@@ -83,14 +78,14 @@ export const fetchABalance = (id) => () => {
   
   
   //Create an Invoice
-  export const createAnInvoice = ({  
+  export const createAnInvoice = ({
+    dispatch,   
     courseId,
     phoneNumber,
     paymentMethod,
     couponCode,
     type
-} ) => () => {
-    const { dispatch } = useApplication();
+} ) => {
       dispatch(setInvoicesLoading());
     //Headers
       const config = {
@@ -125,13 +120,12 @@ export const fetchABalance = (id) => () => {
   
   //Pay For an Invoice
   export const PayForAnInvoice = ({  
+    dispatch, 
     PaymentType,
     MobileNumber,
     Amount,
     ClientReference
-} ) => () => {
-    // eslint-disable-next-line react-hooks/rules-of-hooks
-    const { dispatch } = useApplication();
+} ) => {
       dispatch(setInvoicesLoading());
     //Headers
       const config = {
@@ -163,8 +157,7 @@ export const fetchABalance = (id) => () => {
   }
 
   
-  export const cancelAnInvoice = ({ClientReference}) => () => {
-    const { dispatch } = useApplication();
+  export const cancelAnInvoice = ({dispatch, ClientReference}) => {
       dispatch(setInvoicesLoading());
        //Headers
        const config = {

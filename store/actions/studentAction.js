@@ -21,11 +21,9 @@ import {
     ADD_STUDENT
  } from "./actionTypes";
 import { returnErrors } from './errorActions';
-import { useApplication } from '../applicationContext';
 
 
-export const loadStudent = () => () => {
-    const { dispatch } = useApplication();
+export const loadStudent = (dispatch) => {
     //student loading
     dispatch({ type: STUDENT_LOADING });
   
@@ -45,8 +43,7 @@ export const loadStudent = () => () => {
 
   
 //Load a student
-export const fetchStudent = (id) => () => {
-    const { dispatch } = useApplication();
+export const fetchStudent = ({dispatch, id}) => {
     //student loading
     dispatch({ type: STUDENT_LOADING });
   
@@ -62,8 +59,7 @@ export const fetchStudent = (id) => () => {
         }, 5000)
   };
   
-  export const getStudents = () => () => {
-    const { dispatch } = useApplication();
+  export const getStudents = (dispatch) => {
       dispatch(setStudentsLoading());
       axios
         .get('/api/v1/students')
@@ -79,8 +75,7 @@ export const fetchStudent = (id) => () => {
   };
   
   
-  export const getStudentsByCourse = (courseId) => () => {
-    const { dispatch } = useApplication();
+  export const getStudentsByCourse = (dispatch, courseId) => {
       dispatch(setStudentsLoading());
       axios
         .get(`/api/v1/students/${courseId}`)
@@ -98,6 +93,7 @@ export const fetchStudent = (id) => () => {
   
   //Register student
   export const registerStudent = ({  
+    dispatch,
     password,
     email,
     firstname,
@@ -106,8 +102,7 @@ export const fetchStudent = (id) => () => {
     username, 
     referalCode, 
     token 
-} ) => () => {
-    const { dispatch } = useApplication();
+} ) => {
       dispatch(setStudentsLoading());
     //Headers
       const config = {
@@ -144,8 +139,7 @@ export const fetchStudent = (id) => () => {
   
 
   //Update student Info
-  export const updateStudentInfo = ({  firstname, lastname, phoneNumber, id } ) => () => {
-    const { dispatch } = useApplication();
+  export const updateStudentInfo = ({  dispatch, firstname, lastname, phoneNumber, id } ) => {
       dispatch(setStudentsLoading());
     //Headers
       const config = {
@@ -170,8 +164,7 @@ export const fetchStudent = (id) => () => {
           })
   }
   
-  export const deleteStudent = id => () => {
-    const { dispatch } = useApplication();
+  export const deleteStudent = ({dispatch, id}) => {
       dispatch(setStudentsLoading());
     axios
         .delete(`/api/v1/students/student/${id}`)
@@ -191,8 +184,7 @@ export const fetchStudent = (id) => () => {
     
     
   //LOGIN
-  export const loginStudent = ({ email, password, token, ip }) => () => {
-    const { dispatch } = useApplication();
+  export const loginStudent = ({ dispatch, email, password, token, ip }) => {
       dispatch(setStudentsLoading());
     //Headers
       const config = {
@@ -218,8 +210,7 @@ export const fetchStudent = (id) => () => {
   }
   
   
-  export const updateStudentProfileImage = (body) => () => {
-    const { dispatch } = useApplication();
+  export const updateStudentProfileImage = ({body, dispatch}) => {
       dispatch(setStudentsLoading());
   
       axios.put(`/api/v1/students/student/avatar`, body)
@@ -235,8 +226,7 @@ export const fetchStudent = (id) => () => {
           })
   }
   
-  export const changeStudentPassword = ({ id, password, password2, password1 }) => () => {
-    const { dispatch } = useApplication();
+  export const changeStudentPassword = ({ dispatch, id, password, password2, password1 }) => {
       dispatch(setStudentsLoading());
     //Headers
       const config = {
@@ -261,8 +251,7 @@ export const fetchStudent = (id) => () => {
           })
   }
   
-  export const verifyAccount = ({ emailCode:code }) => () => {
-    const { dispatch } = useApplication();
+  export const verifyAccount = ({ dispatch, emailCode:code }) => {
       dispatch(setStudentsLoading());
     //Headers
       const config = {
@@ -287,8 +276,7 @@ export const fetchStudent = (id) => () => {
           })
   }
   
-  export const resendEmailVerificationCode = () => () => {
-    const { dispatch } = useApplication();
+  export const resendEmailVerificationCode = (dispatch) => {
       dispatch(setStudentsLoading());
   
       axios.post(`/api/v1/students/send-emailcode`)
@@ -304,8 +292,7 @@ export const fetchStudent = (id) => () => {
           })
   }
   
-  export const resendEmailVerificationCodeSMS = () => () => {
-    const { dispatch } = useApplication();
+  export const resendEmailVerificationCodeSMS = (dispatch) => {
       dispatch(setStudentsLoading());
   
       axios.post(`/api/v1/students/send-emailcode/sms`)
@@ -321,8 +308,7 @@ export const fetchStudent = (id) => () => {
           })
   }
   
-  export const resetStudentPasswordMail = ({ email, token }) => () => {
-    const { dispatch } = useApplication();
+  export const resetStudentPasswordMail = ({ dispatch, email, token }) => {
       dispatch(setStudentsLoading());
     //Headers
       const config = {
@@ -347,8 +333,7 @@ export const fetchStudent = (id) => () => {
           })
   }
   
-  export const resetStudentPassword = ({ email, password, password2, resetCode, token }) => () => {
-    const { dispatch } = useApplication();
+  export const resetStudentPassword = ({ dispatch, email, password, password2, resetCode, token }) => {
       dispatch(setStudentsLoading());
     //Headers
       const config = {
@@ -381,8 +366,7 @@ export const fetchStudent = (id) => () => {
   };
   
   //logout
-  export const logout = () => () => {
-    const { dispatch } = useApplication();
+  export const logout = (dispatch) => {
       dispatch(setStudentsLoading());
     axios
       .get('/api/v1/students/logout')
