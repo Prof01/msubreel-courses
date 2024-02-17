@@ -1,4 +1,5 @@
 import { 
+  ADD_ADMIN,
   ADD_CERTIFICATE,
   ADD_COURSE,
   ADD_CREATOR,
@@ -8,6 +9,7 @@ import {
   ADD_STUDENT_FAILED,
   ADD_STUDENT_MOMO,
   ADD_TEST,
+  ADMIN_LOADED,
   AUTH_ERROR,
     CHANGE_FAIL,
     CHANGE_PASSWORD,
@@ -30,6 +32,7 @@ import {
     DELETE_STUDENT_MOMO,
     DELETE_TEST,
     FAILED,
+    FETCH_ADMINS,
     FETCH_BALANCE,
     FETCH_CERTIFICATE,
     FETCH_CERTIFICATES,
@@ -63,6 +66,9 @@ import {
 
 const initialState = {
     creator: null,
+    creators: [],
+    admin: null,
+    admins: [],
     student: null,
     students: [],
     course: null,
@@ -87,14 +93,34 @@ const initialState = {
   };
 
   
-const applicationReducer = (state = initialState, action) => {
+  const applicationReducer = (state = initialState, action) => {
     switch (action.type) {
       case CLEAR_TYPE:
-            return {
-                ...state,
-                type: '',
-                isLoading: false
-            }
+        return {
+          ...state,
+          type: '',
+          isLoading: false
+        }
+case ADMIN_LOADED:
+  return { 
+    ...state, 
+    admin: action.payload, 
+    isLoading: false 
+  };
+  case FETCH_ADMINS:
+    return { 
+      ...state, 
+      admins: action.payload, 
+      isLoading: false 
+    };
+    case ADD_ADMIN:
+        return {
+            ...state,
+            admin: action.payload?.admin,
+            isAuthenticated: true,
+            success: action.payload?.msg,
+            isLoading: false
+    };
       case CREATOR_LOADING:
         return { 
           ...state, 

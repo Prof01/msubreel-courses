@@ -1,19 +1,17 @@
 import axios from 'axios';
 import { 
-    ADD_CREATOR,
-    ADD_CREATOR_MOMO,
+  ADD_ADMIN,
+  ADD_ADMIN_MOMO,
+    ADMIN_LOADED,
     AUTH_ERROR,
     CHANGE_FAIL,
     CHANGE_PASSWORD,
     CHANGE_PIN,
     CLEAR_SUCCESS,
-    CREATOR_LOADED, 
     CREATOR_LOADING,
-    CUSTOMER_LOADED,
-    DELETE_CREATOR,
-    DELETE_CREATOR_MOMO,
+    DELETE_ADMIN,
     FAILED,
-    FETCH_CREATORS,
+    FETCH_ADMINS,
     LOGIN_FAIL,
     LOGIN_SUCCESS,
     LOGOUT_SUCCESS,
@@ -23,14 +21,14 @@ import { returnErrors } from './errorActions';
 import { useApplication } from '../applicationContext';
 
 
-export const loadCreator = () => () => {
+export const loadAdmin = () => () => {
     const { dispatch } = useApplication();
     //Creator loading
     dispatch({ type: CREATOR_LOADING });
   
-      axios.get('/api/v1/creators/creator/dashboard')
+      axios.get('/api/v1/admins/admin/dashboard')
           .then(res => dispatch({
-              type: CREATOR_LOADED,
+              type: ADMIN_LOADED,
               payload: res.data
           }))
           .catch(err => {
@@ -43,16 +41,16 @@ export const loadCreator = () => () => {
   };
 
   
-//Load a Creator
-export const fetchACreator = (id) => () => {
+//Load a Admin
+export const fetchAnAdmin = (id) => () => {
     const { dispatch } = useApplication();
-    //Creator loading
+    //Admin loading
     dispatch({ type: CREATOR_LOADING });
   
     setTimeout(()=> {
-      axios.get(`/api/v1/creators/creator/${id}`)
+      axios.get(`/api/v1/admins/admin/${id}`)
           .then(res => dispatch({
-              type: CREATOR_LOADED,
+              type: ADMIN_LOADED,
               payload: res.data
           }))
           .catch(err =>
@@ -61,14 +59,14 @@ export const fetchACreator = (id) => () => {
         }, 5000)
   };
   
-  export const getCreators = () => () => {
+  export const getAdmins = () => () => {
     const { dispatch } = useApplication();
-      dispatch(setCreatorsLoading());
+      dispatch(setAdminsLoading());
       axios
-        .get('/api/v1/creators')
+        .get('/api/v1/admins')
         .then(res =>
           dispatch({
-            type: FETCH_CREATORS,
+            type: FETCH_ADMINS,
             payload: res.data
           })
         )
@@ -78,8 +76,8 @@ export const fetchACreator = (id) => () => {
   };
   
   
-  //Register Creator
-  export const registerCreator = ({  
+  //Register admin
+  export const registerAdmin = ({  
     password,
     email,
     firstname,
@@ -90,7 +88,7 @@ export const fetchACreator = (id) => () => {
     token 
 } ) => () => {
     const { dispatch } = useApplication();
-      dispatch(setCreatorsLoading());
+      dispatch(setAdminsLoading());
     //Headers
       const config = {
           headers: {
@@ -110,9 +108,9 @@ export const fetchACreator = (id) => () => {
         token });
       
       setTimeout(()=> {
-        axios.post('/api/v1/creators/creator/signup', body, config)
+        axios.post('/api/v1/admins/admin/signup', body, config)
             .then(res => dispatch({
-                type: ADD_CREATOR,
+                type: ADD_ADMIN,
                 payload: res.data
             }))
             .catch(err => {
@@ -124,10 +122,10 @@ export const fetchACreator = (id) => () => {
       }, 15000)
   }
   
-  //Update Creator Info By Admin
-  export const updateCustomerInfo = ({  firstname, lastname, phoneNumber, id } ) => () => {
+  //Update admin Info
+  export const updateAdminInfo = ({  firstname, lastname, adminname, phoneNumber, id } ) => () => {
     const { dispatch } = useApplication();
-      dispatch(setCreatorsLoading());
+      dispatch(setAdminsLoading());
     //Headers
       const config = {
           headers: {
@@ -136,56 +134,29 @@ export const fetchACreator = (id) => () => {
       };
   
       //Request body
-      const body = JSON.stringify({ firstname, lastname, phoneNumber });
+      const body = JSON.stringify({ firstname, lastname, adminname, phoneNumber });
   
-      axios.put(`/api/v1/creators/${id}/update/admin`, body, config)
+      axios.put(`/api/v1/admins/${id}/update`, body, config)
           .then(res => dispatch({
-              type: CREATOR_LOADED,
+              type: ADD_ADMIN,
               payload: res.data
           }))
           .catch(err => {
-              dispatch(returnErrors(err.response.data, err.response.status, 'ADD_CREATORCARD_FAILED'));
+              dispatch(returnErrors(err.response.data, err.response.status, 'ADD_adminCARD_FAILED'));
               dispatch({
-                  type: ADD_CREATORCARD_FAILED
-              })
-          })
-  }
-
-  //Update creator Info
-  export const updateCreatorInfo = ({  firstname, lastname, creatorname, phoneNumber, id } ) => () => {
-    const { dispatch } = useApplication();
-      dispatch(setCreatorsLoading());
-    //Headers
-      const config = {
-          headers: {
-              'Content-type': 'application/json'
-          }
-      };
-  
-      //Request body
-      const body = JSON.stringify({ firstname, lastname, creatorname, phoneNumber });
-  
-      axios.put(`/api/v1/creators/${id}/update`, body, config)
-          .then(res => dispatch({
-              type: ADD_CREATOR,
-              payload: res.data
-          }))
-          .catch(err => {
-              dispatch(returnErrors(err.response.data, err.response.status, 'ADD_CREATORCARD_FAILED'));
-              dispatch({
-                  type: ADD_CREATORCARD_FAILED
+                  type: ADD_adminCARD_FAILED
               })
           })
   }
   
-  export const deleteCreator = id => () => {
+  export const deleteAdmin = id => () => {
     const { dispatch } = useApplication();
-      dispatch(setCreatorsLoading());
+      dispatch(setAdminsLoading());
     axios
-        .delete(`/api/v1/creators/creator/${id}`)
+        .delete(`/api/v1/admins/admin/${id}`)
         .then(res =>
           dispatch({
-            type: DELETE_CREATOR,
+            type: DELETE_ADMIN,
             payload: res.data
           })
         )
@@ -199,9 +170,9 @@ export const fetchACreator = (id) => () => {
     
     
   //LOGIN
-  export const loginCreator = ({ email, password, token, ip }) => () => {
+  export const loginAdmin = ({ email, password, token, ip }) => () => {
     const { dispatch } = useApplication();
-      dispatch(setCreatorsLoading());
+      dispatch(setAdminsLoading());
     //Headers
       const config = {
           headers: {
@@ -212,7 +183,7 @@ export const fetchACreator = (id) => () => {
       //Request body
       const body = JSON.stringify({email, password, token, ip });
   
-      axios.post('/api/v1/creators/creator/login', body, config)
+      axios.post('/api/v1/admins/admin/login', body, config)
           .then(res => dispatch({
               type: LOGIN_SUCCESS,
               payload: res.data
@@ -226,13 +197,13 @@ export const fetchACreator = (id) => () => {
   }
   
   
-  export const updateCreatorProfileImage = (body) => () => {
+  export const updateadminProfileImage = (body) => () => {
     const { dispatch } = useApplication();
-      dispatch(setCreatorsLoading());
+      dispatch(setAdminsLoading());
   
-      axios.put(`/api/v1/creators/creator/avatar`, body)
+      axios.put(`/api/v1/admins/admin/avatar`, body)
           .then(res => dispatch({
-              type: ADD_CREATOR_MOMO,
+              type: ADD_ADMIN_MOMO,
               payload: res.data
           }))
           .catch(err => {
@@ -243,9 +214,9 @@ export const fetchACreator = (id) => () => {
           })
   }
   
-  export const changeCreatorPassword = ({ id, password, password2, password1 }) => () => {
+  export const changeAdminPassword = ({ id, password, password2, password1 }) => () => {
     const { dispatch } = useApplication();
-      dispatch(setCreatorsLoading());
+      dispatch(setAdminsLoading());
     //Headers
       const config = {
           headers: {
@@ -256,7 +227,7 @@ export const fetchACreator = (id) => () => {
       //Request body
       const body = JSON.stringify({password, password2, password1 });
   
-      axios.put(`/api/v1/creators/creator/changepassword/${id}`, body, config)
+      axios.put(`/api/v1/admins/admin/changepassword/${id}`, body, config)
           .then(res => dispatch({
               type: CHANGE_PASSWORD,
               payload: res.data
@@ -271,7 +242,7 @@ export const fetchACreator = (id) => () => {
   
   export const verifyAccount = ({ emailCode:code }) => () => {
     const { dispatch } = useApplication();
-      dispatch(setCreatorsLoading());
+      dispatch(setAdminsLoading());
     //Headers
       const config = {
           headers: {
@@ -282,7 +253,7 @@ export const fetchACreator = (id) => () => {
       //Request body
       const body = JSON.stringify({ code });
   
-      axios.post(`/api/v1/creators/confirm-email`, body, config)
+      axios.post(`/api/v1/admins/confirm-email`, body, config)
           .then(res => dispatch({
               type: VERIFY_SUCCESS,
               payload: res.data
@@ -297,9 +268,9 @@ export const fetchACreator = (id) => () => {
   
   export const resendEmailVerificationCode = () => () => {
     const { dispatch } = useApplication();
-      dispatch(setCreatorsLoading());
+      dispatch(setAdminsLoading());
   
-      axios.post(`/api/v1/creators/send-emailcode`)
+      axios.post(`/api/v1/admins/send-emailcode`)
           .then(res => dispatch({
               type: SEND_CODE,
               payload: res.data
@@ -314,9 +285,9 @@ export const fetchACreator = (id) => () => {
   
   export const resendEmailVerificationCodeSMS = () => () => {
     const { dispatch } = useApplication();
-      dispatch(setCreatorsLoading());
+      dispatch(setAdminsLoading());
   
-      axios.post(`/api/v1/creators/send-emailcode/sms`)
+      axios.post(`/api/v1/admins/send-emailcode/sms`)
           .then(res => dispatch({
               type: SEND_CODE,
               payload: res.data
@@ -329,9 +300,9 @@ export const fetchACreator = (id) => () => {
           })
   }
   
-  export const resetCreatorPasswordMail = ({ email, token }) => () => {
+  export const resetAdminPasswordMail = ({ email, token }) => () => {
     const { dispatch } = useApplication();
-      dispatch(setCreatorsLoading());
+      dispatch(setAdminsLoading());
     //Headers
       const config = {
           headers: {
@@ -342,7 +313,7 @@ export const fetchACreator = (id) => () => {
       //Request body
       const body = JSON.stringify({ email, token });
   
-      axios.post(`/api/v1/creators/resetmail`, body, config)
+      axios.post(`/api/v1/admins/resetmail`, body, config)
           .then(res => dispatch({
               type: SEND_CODE,
               payload: res.data
@@ -355,9 +326,9 @@ export const fetchACreator = (id) => () => {
           })
   }
   
-  export const resetCreatorPassword = ({ email, password, password2, resetCode, token }) => () => {
+  export const resetAdminPassword = ({ email, password, password2, resetCode, token }) => () => {
     const { dispatch } = useApplication();
-      dispatch(setCreatorsLoading());
+      dispatch(setAdminsLoading());
     //Headers
       const config = {
           headers: {
@@ -368,7 +339,7 @@ export const fetchACreator = (id) => () => {
       //Request body
       const body = JSON.stringify({ email, password, password2, resetCode, token });
   
-      axios.post(`/api/v1/creators/resetpassword`, body, config)
+      axios.post(`/api/v1/admins/resetpassword`, body, config)
           .then(res => dispatch({
               type: CHANGE_PIN,
               payload: res.data
@@ -391,9 +362,9 @@ export const fetchACreator = (id) => () => {
   //logout
   export const logout = () => () => {
     const { dispatch } = useApplication();
-      dispatch(setCreatorsLoading());
+      dispatch(setAdminsLoading());
     axios
-      .get('/api/v1/creators/creator/logout')
+      .get('/api/v1/admins/admin/logout')
       .then(res => dispatch({
           type: LOGOUT_SUCCESS
       }))
@@ -403,7 +374,7 @@ export const fetchACreator = (id) => () => {
   }
   
   
-  export const setCreatorsLoading = () => {
+  export const setAdminsLoading = () => {
       return {
         type: CREATOR_LOADING
       };

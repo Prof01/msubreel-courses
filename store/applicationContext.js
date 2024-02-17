@@ -2,6 +2,8 @@
 'use client'
 import React, { createContext, useContext, useReducer, useRef, useEffect } from 'react';
 import { applicationReducer, initialState } from './applicationReducer';
+import { loadCreator } from './actions/creatorActions';
+import { loadStudent } from './actions/studentAction';
 
 const ApplicationContext = createContext();
 
@@ -9,6 +11,8 @@ const ApplicationProvider = ({ children }) => {
     const applicationRef = useRef(null);
   
     useEffect(() => {
+      loadCreator()
+      loadStudent()
       // Create the application instance only on the client side
       if (typeof window !== 'undefined') {
         applicationRef.current = new window.application();
