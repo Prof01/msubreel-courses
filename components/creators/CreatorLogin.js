@@ -37,8 +37,8 @@ export function LoginForm() {
         </form>
       </CardContent>
       <CardFooter className='flex justify-between'>
-        <Link className="text-xs no-underline text-gray-950" href={'/admin/register'}>Register Account</Link>
-        <Link className="text-xs no-underline text-gray-950" href={'/admin/forget-password'}>Forget Password</Link>
+        <Link className="text-xs no-underline" href={'/creator/register'}>Register Account</Link>
+        <Link className="text-xs no-underline" href={'/creator/forget-password'}>Forget Password</Link>
       </CardFooter>
     </Card>
   )

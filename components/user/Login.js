@@ -13,26 +13,40 @@ import {
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import Link from "next/link"
-import { useForm } from 'react-hook-form';
+import { z } from "zod";
+import { useForm, useFieldArray } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from 'next/navigation';
 import { useApplication } from "@/store/applicationContext"
 import { useEffect } from "react"
 import { loginStudent } from "@/store/actions/studentAction"
+import { Loader } from "lucide-react"
+import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "../ui/form"
+import { loginValidationSchema, LoginFormValues } from "../loginValidationSchema"
 
 
 export function LoginForm({searchParams}) {
   const router = useRouter()  
   const {state, dispatch} = useApplication()
-
+  const form = useForm({
+    resolver: zodResolver(loginValidationSchema),
+    mode: "onBlur",
+    defaultValues: {
+      password: "",
+      email: "",
+    },
+  });
   const {
     register,
     handleSubmit,
+    control,
     formState: { errors },
   } = useForm();
 
-  const onSubmit = (data) => {   
-      data.dispatch = dispatch;
+  const onSubmit = (values) => {   
+    values.dispatch = dispatch;
 
+    console.log(values);
     loginStudent(data)
   };
 
@@ -51,7 +65,8 @@ console.log(state?.errorMsg);
         <CardDescription>Enter your details to Login.</CardDescription>
       </CardHeader>
       <CardContent>
-        <form onSubmit={handleSubmit(onSubmit)}>
+      <Form {...form}>
+        <form onSubmit={form.handleSubmit(onSubmit)}>
           <div className="grid w-full items-center gap-4">
             <div className="flex flex-col space-y-1.5">
               <Label htmlFor="email">Email</Label>
@@ -59,6 +74,23 @@ console.log(state?.errorMsg);
               {errors.email && (
               <p className="text-red-500">{errors.email.message}</p>
             )}
+
+
+<FormField
+  control={control}
+  name="username"
+  render={({ field }) => (
+    <FormItem>
+      <FormLabel>Username</FormLabel>
+      <FormControl>
+        <Input  placeholder="shadcn" {...field} />
+      </FormControl>
+      <FormDescription>This is your public display name.</FormDescription>
+      <FormMessage />
+    </FormItem>
+  )}
+/>
+
             </div>
             <div className="flex flex-col space-y-1.5">
               <Label htmlFor="password">Password</Label>
@@ -68,12 +100,13 @@ console.log(state?.errorMsg);
             )}
             </div>
           </div>
-          <Button disable={state?.isLoading ? true : false} className='mt-2 hover:bg-green-300'>Login</Button>
+          <Button disable={state?.isLoading ? true : false} className='mt-2 hover:bg-green-300'>{state?.isLoading ? <Loader /> : 'Login'} </Button>
         </form>
+      </Form>
       </CardContent>
       <CardFooter className='flex justify-between'>
-        <Link className="text-xs no-underline text-gray-950" href={'/app/register'}>Register Account</Link>
-        <Link className="text-xs no-underline text-gray-950" href={'/app/forget-password'}>Forget Password</Link>
+        <Link className="text-xs no-underline" href={'/app/register'}>Register Account</Link>
+        <Link className="text-xs no-underline" href={'/app/forget-password'}>Forget Password</Link>
       </CardFooter>
     </Card>
   )
