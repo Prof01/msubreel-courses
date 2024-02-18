@@ -8,7 +8,7 @@ import { loadStudent } from './actions/studentAction';
 const ApplicationContext = createContext();
 
 const ApplicationProvider = ({ children }) => {
-    const applicationRef = useRef(null);
+    // const applicationRef = useRef(null);
     const [state, dispatch] = useReducer(applicationReducer, initialState);
 
     useEffect(() => {
@@ -22,7 +22,7 @@ const ApplicationProvider = ({ children }) => {
   
       
     return (
-      <ApplicationContext.Provider value={{ state, dispatch, applicationRef }}>
+      <ApplicationContext.Provider value={{ state, dispatch }}>
         {children}
       </ApplicationContext.Provider>
     );

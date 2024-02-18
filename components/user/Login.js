@@ -1,3 +1,4 @@
+'use client'
 import * as React from "react"
 
 import { Button } from "@/components/ui/button"
@@ -12,9 +13,37 @@ import {
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import Link from "next/link"
+import { useForm } from 'react-hook-form';
+import { useRouter } from 'next/navigation';
+import { useApplication } from "@/store/applicationContext"
+import { useEffect } from "react"
+import { loginStudent } from "@/store/actions/studentAction"
 
 
-export function LoginForm() {
+export function LoginForm({searchParams}) {
+  const router = useRouter()  
+  const {state, dispatch} = useApplication()
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
+
+  const onSubmit = (data) => {   
+      data.dispatch = dispatch;
+
+    loginStudent(data)
+  };
+
+console.log(state?.errorMsg);
+  useEffect(() => {
+    if(state?.student) {
+      router.refresh()
+      router.push(`/app/dashboard?service=${searchParams?.service}`)
+    }
+  }, [state?.student, router, searchParams?.service])
+
   return (
     <Card className="w-[350px]">
       <CardHeader>
@@ -22,18 +51,24 @@ export function LoginForm() {
         <CardDescription>Enter your details to Login.</CardDescription>
       </CardHeader>
       <CardContent>
-        <form>
+        <form onSubmit={handleSubmit(onSubmit)}>
           <div className="grid w-full items-center gap-4">
             <div className="flex flex-col space-y-1.5">
               <Label htmlFor="email">Email</Label>
-              <Input type='email' required id="email" placeholder="Enter your Email" />
+              <Input {...register('email', { required: true })} type='email' required id="email" placeholder="Enter your Email" />
+              {errors.email && (
+              <p className="text-red-500">{errors.email.message}</p>
+            )}
             </div>
             <div className="flex flex-col space-y-1.5">
               <Label htmlFor="password">Password</Label>
-              <Input required type='password' id="password" placeholder="Enter your password" />
+              <Input {...register('password', { required: true })}  type='password' id="password" placeholder="Enter your password" />
+              {errors.password && (
+              <p className="text-red-500">{errors.password.message}</p>
+            )}
             </div>
           </div>
-          <Button className='mt-2 hover:bg-green-300'>Login</Button>
+          <Button disable={state?.isLoading ? true : false} className='mt-2 hover:bg-green-300'>Login</Button>
         </form>
       </CardContent>
       <CardFooter className='flex justify-between'>

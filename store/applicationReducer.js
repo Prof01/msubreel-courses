@@ -50,6 +50,7 @@ import {
     FETCH_STUDENTS, 
     FETCH_TEST,
     FETCH_TESTS,
+    GET_ERRORS,
     LOGIN_FAIL,
     LOGIN_SUCCESS,
     LOGOUT_SUCCESS,
@@ -99,6 +100,12 @@ const initialState = {
         return {
           ...state,
           type: '',
+          isLoading: false
+        }
+      case GET_ERRORS:
+        return {
+          ...state,
+          errorMsg: action.payload.msg.msg,
           isLoading: false
         }
 case ADMIN_LOADED:
