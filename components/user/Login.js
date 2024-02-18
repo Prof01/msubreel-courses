@@ -11,10 +11,8 @@ import {
   CardTitle,
 } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
 import Link from "next/link"
-import { z } from "zod";
-import { useForm, useFieldArray } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from 'next/navigation';
 import { useApplication } from "@/store/applicationContext"
@@ -47,7 +45,7 @@ export function LoginForm({searchParams}) {
     values.dispatch = dispatch;
 
     console.log(values);
-    loginStudent(data)
+    loginStudent(values)
   };
 
 console.log(state?.errorMsg);
@@ -69,38 +67,40 @@ console.log(state?.errorMsg);
         <form onSubmit={form.handleSubmit(onSubmit)}>
           <div className="grid w-full items-center gap-4">
             <div className="flex flex-col space-y-1.5">
-              <Label htmlFor="email">Email</Label>
-              <Input {...register('email', { required: true })} type='email' required id="email" placeholder="Enter your Email" />
-              {errors.email && (
-              <p className="text-red-500">{errors.email.message}</p>
-            )}
-
-
-<FormField
-  control={control}
-  name="username"
-  render={({ field }) => (
-    <FormItem>
-      <FormLabel>Username</FormLabel>
-      <FormControl>
-        <Input  placeholder="shadcn" {...field} />
-      </FormControl>
-      <FormDescription>This is your public display name.</FormDescription>
-      <FormMessage />
-    </FormItem>
-  )}
-/>
+              <FormField
+                control={form.control}
+                name="email"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel htmlFor="email">Email</FormLabel>
+                    <FormControl>
+                      <Input  placeholder="Enter your Email" {...field} />
+                    </FormControl>
+                    {/* <FormDescription>This is your public display name.</FormDescription> */}
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
 
             </div>
             <div className="flex flex-col space-y-1.5">
-              <Label htmlFor="password">Password</Label>
-              <Input {...register('password', { required: true })}  type='password' id="password" placeholder="Enter your password" />
-              {errors.password && (
-              <p className="text-red-500">{errors.password.message}</p>
-            )}
+            <FormField
+                control={form.control}
+                name="password"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel htmlFor="password">Password</FormLabel>
+                    <FormControl>
+                      <Input  placeholder="Enter your password" {...field} />
+                    </FormControl>
+                    {/* <FormDescription>This is your public display name.</FormDescription> */}
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
             </div>
           </div>
-          <Button disable={state?.isLoading ? true : false} className='mt-2 hover:bg-green-300'>{state?.isLoading ? <Loader /> : 'Login'} </Button>
+          <Button type="submit" disable={state?.isLoading ? 'true' : 'false'} className='mt-2 hover:bg-green-300'>{state?.isLoading ? <Loader /> : 'Login'} </Button>
         </form>
       </Form>
       </CardContent>

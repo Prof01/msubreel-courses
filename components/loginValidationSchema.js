@@ -5,7 +5,7 @@ export const loginValidationSchema = z.object({
       message: "Must be a valid email",
     }),
     password: z.string().min(1, {
-      message: "Name is required",
+      message: "Password is required",
     }),
   });
   
