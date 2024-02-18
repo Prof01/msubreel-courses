@@ -19,8 +19,9 @@ import { useApplication } from "@/store/applicationContext"
 import { useEffect } from "react"
 import { Loader } from "lucide-react"
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "../ui/form"
-import { loginValidationSchema } from "../loginValidationSchema"
+import { loginValidationSchema } from "../validations/loginValidationSchema"
 import { loginAdmin } from "@/store/actions/adminActions"
+import { clearErrors } from "@/store/actions/errorActions"
 
 
 export function LoginForm({searchParams}) {
@@ -37,7 +38,7 @@ export function LoginForm({searchParams}) {
 
   const onSubmit = (values) => {   
     values.dispatch = dispatch;
-
+    dispatch(clearErrors())
     console.log(values);
     loginAdmin(values)
   };
@@ -87,14 +88,17 @@ console.log(state?.errorMsg);
                     <FormControl>
                       <Input  placeholder="Enter your password" {...field} />
                     </FormControl>
-                    {/* <FormDescription>This is your public display name.</FormDescription> */}
-                    <FormMessage />
                   </FormItem>
                 )}
               />
             </div>
           </div>
           <Button type="submit" disable={state?.isLoading ? 'true' : 'false'} className='mt-2 hover:bg-green-300'>{state?.isLoading ? <Loader /> : 'Login'} </Button>
+          <div>
+            {
+              state?.errorMsg && state.errorMsg != 'Not Allowed Please login' && <small className="text-red-400">{state?.errorMsg}</small>
+            }
+          </div>
         </form>
       </Form>
       </CardContent>

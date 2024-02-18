@@ -19,8 +19,9 @@ import { useApplication } from "@/store/applicationContext"
 import { useEffect } from "react"
 import { Loader } from "lucide-react"
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "../ui/form"
-import { loginValidationSchema } from "../loginValidationSchema"
 import { loginCreator } from "@/store/actions/creatorActions"
+import { clearErrors } from "@/store/actions/errorActions"
+import { loginValidationSchema } from "../validations/loginValidationSchema"
 
 
 export function LoginForm({searchParams}) {
@@ -37,7 +38,7 @@ export function LoginForm({searchParams}) {
 
   const onSubmit = (values) => {   
     values.dispatch = dispatch;
-
+    // dispatch(clearErrors())
     console.log(values);
     loginCreator(values)
   };
@@ -70,7 +71,6 @@ console.log(state?.errorMsg);
                     <FormControl>
                       <Input  placeholder="Enter your Email" {...field} />
                     </FormControl>
-                    {/* <FormDescription>This is your public display name.</FormDescription> */}
                     <FormMessage />
                   </FormItem>
                 )}
@@ -87,7 +87,6 @@ console.log(state?.errorMsg);
                     <FormControl>
                       <Input  placeholder="Enter your password" {...field} />
                     </FormControl>
-                    {/* <FormDescription>This is your public display name.</FormDescription> */}
                     <FormMessage />
                   </FormItem>
                 )}
@@ -95,6 +94,11 @@ console.log(state?.errorMsg);
             </div>
           </div>
           <Button type="submit" disable={state?.isLoading ? 'true' : 'false'} className='mt-2 hover:bg-green-300'>{state?.isLoading ? <Loader /> : 'Login'} </Button>
+                   <div>
+                      {
+                        state?.errorMsg?.msg && state?.errorMsg?.msg != 'Not Allowed Please login' && <small className="text-red-400">{state?.errorMsg?.msg}</small>
+                      }
+                   </div>
         </form>
       </Form>
       </CardContent>

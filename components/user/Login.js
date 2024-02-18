@@ -20,8 +20,7 @@ import { useEffect } from "react"
 import { loginStudent } from "@/store/actions/studentAction"
 import { Loader } from "lucide-react"
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "../ui/form"
-import { loginValidationSchema, LoginFormValues } from "../loginValidationSchema"
-
+import { loginValidationSchema } from "../validations/loginValidationSchema"
 
 export function LoginForm({searchParams}) {
   const router = useRouter()  
@@ -101,6 +100,11 @@ console.log(state?.errorMsg);
             </div>
           </div>
           <Button type="submit" disable={state?.isLoading ? 'true' : 'false'} className='mt-2 hover:bg-green-300'>{state?.isLoading ? <Loader /> : 'Login'} </Button>
+          <div>
+              {
+                state?.errorMsg && state.errorMsg != 'Not Allowed Please login' && <small className="text-red-400">{state?.errorMsg}</small>
+              }
+            </div>
         </form>
       </Form>
       </CardContent>

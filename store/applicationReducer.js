@@ -15,6 +15,7 @@ import {
     CHANGE_PASSWORD,
     CHANGE_PIN,
     CLEAR_CHATS,
+    CLEAR_ERRORS,
     CLEAR_SUCCESS,
     CLEAR_TYPE,
     CREATOR_LOADED,
@@ -102,16 +103,23 @@ const initialState = {
           type: '',
           isLoading: false
         }
+      case CLEAR_ERRORS:
+        return {
+          ...state,
+          errorMsg: '',
+          isLoading: false
+        }
       case GET_ERRORS:
         return {
           ...state,
-          errorMsg: action.payload.msg.msg,
+          errorMsg: action.payload.msg,
           isLoading: false
         }
 case ADMIN_LOADED:
   return { 
     ...state, 
-    admin: action.payload, 
+    admin: action.payload.admin,
+    successMsg: action.payload.msg,  
     isLoading: false 
   };
   case FETCH_ADMINS:
@@ -136,7 +144,8 @@ case ADMIN_LOADED:
         case CREATOR_LOADED:
           return { 
             ...state, 
-            creator: action.payload, 
+            creator: action.payload.creator, 
+            successMsg: action.payload.msg, 
             isLoading: false 
           };
           case FETCH_CREATORS:
@@ -403,6 +412,7 @@ case ADMIN_LOADED:
                   ...state,
                   isAuthenticated: true,
                   student: action.payload?.student,
+                  successMsg: action.payload.msg, 
                   isLoading: false,
               };       
               case CUSTOMER_LOADED:
