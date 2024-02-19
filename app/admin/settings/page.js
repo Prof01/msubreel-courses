@@ -1,3 +1,4 @@
+'use client'
 import AdminNavbar from '@/components/admin/AdminNavbar'
 import { EditAdminInfoForm } from '@/components/admin/EditAdminInfoForm'
 import React from 'react'
