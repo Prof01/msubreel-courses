@@ -33,12 +33,6 @@ export function LoginForm({searchParams}) {
       email: "",
     },
   });
-  const {
-    register,
-    handleSubmit,
-    control,
-    formState: { errors },
-  } = useForm();
 
   const onSubmit = (values) => {   
     values.dispatch = dispatch;
@@ -75,7 +69,6 @@ console.log(state?.errorMsg);
                     <FormControl>
                       <Input  placeholder="Enter your Email" {...field} />
                     </FormControl>
-                    {/* <FormDescription>This is your public display name.</FormDescription> */}
                     <FormMessage />
                   </FormItem>
                 )}
@@ -92,7 +85,6 @@ console.log(state?.errorMsg);
                     <FormControl>
                       <Input  placeholder="Enter your password" {...field} />
                     </FormControl>
-                    {/* <FormDescription>This is your public display name.</FormDescription> */}
                     <FormMessage />
                   </FormItem>
                 )}
@@ -102,7 +94,7 @@ console.log(state?.errorMsg);
           <Button type="submit" disable={state?.isLoading ? 'true' : 'false'} className='mt-2 hover:bg-green-300'>{state?.isLoading ? <Loader /> : 'Login'} </Button>
           <div>
               {
-                state?.errorMsg && state.errorMsg != 'Not Allowed Please login' && <small className="text-red-400">{state?.errorMsg}</small>
+                state?.errorMsg?.msg && state.errorMsg?.msg != 'Not Allowed Please login' && <small className="text-red-400">{state?.errorMsg?.mg}</small>
               }
             </div>
         </form>

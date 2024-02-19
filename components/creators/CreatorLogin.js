@@ -103,8 +103,8 @@ console.log(state?.errorMsg);
       </Form>
       </CardContent>
       <CardFooter className='flex justify-between'>
-        <Link className="text-xs no-underline" href={'/creator/register'}>Register Account</Link>
-        <Link className="text-xs no-underline" href={'/creator/forget-password'}>Forget Password</Link>
+        <Link className="text-xs no-underline" href={'/creators/register'}>Register Account</Link>
+        <Link className="text-xs no-underline" href={'/creators/forget-password'}>Forget Password</Link>
       </CardFooter>
     </Card>
   )

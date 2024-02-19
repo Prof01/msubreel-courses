@@ -1,3 +1,4 @@
+'use client'
 import * as React from "react"
 
 import { Button } from "@/components/ui/button"
@@ -10,11 +11,51 @@ import {
   CardTitle,
 } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
 import Link from "next/link"
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useRouter } from 'next/navigation';
+import { useApplication } from "@/store/applicationContext"
+import { useEffect } from "react"
+import { Loader } from "lucide-react"
+import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "../ui/form"
+import { clearErrors } from "@/store/actions/errorActions"
+import { signupValidationSchema } from "../validations/signupValidationSchema"
+import { registerAdmin } from "@/store/actions/adminActions"
 
 
-export function AdminRegistrationForm() {
+
+export function AdminRegistrationForm({searchParams}) {
+  const router = useRouter()  
+  const {state, dispatch} = useApplication()
+  const form = useForm({
+    resolver: zodResolver(signupValidationSchema),
+    mode: "onBlur",
+    defaultValues: {
+      firstName: "",
+      lastName: "",
+      phoneNumber: "",
+      email: "",
+      password: "",
+      password2: "",
+    },
+  });
+
+  const onSubmit = (values) => {   
+    values.dispatch = dispatch;
+
+    console.log(values);
+    registerAdmin(values)
+  };
+
+console.log(state?.errorMsg);
+  useEffect(() => {
+    if(state?.admin) {
+      router.refresh()
+      router.push(`/admin/dashboard?service=${searchParams?.service}`)
+    }
+  }, [state?.admin, router, searchParams?.service])
+
   return (
     <Card className="w-[350px]">
       <CardHeader>
@@ -22,38 +63,111 @@ export function AdminRegistrationForm() {
         <CardDescription>Enter your details to Register an Account.</CardDescription>
       </CardHeader>
       <CardContent>
-        <form>
+      <Form {...form}>
+        <form onSubmit={form.handleSubmit(onSubmit)}>
           <div className="grid w-full items-center gap-4">
             <div className="flex flex-col space-y-1.5">
-              <Label htmlFor="firstName">First Name</Label>
-              <Input type='text' required id="firstName" placeholder="Enter your First Name" />
+              <FormField
+                control={form.control}
+                name="firstName"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel htmlFor="firstName">First Name</FormLabel>
+                    <FormControl>
+                      <Input  placeholder="Enter your First Name" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
             </div>
             <div className="flex flex-col space-y-1.5">
-              <Label htmlFor="lastName">Last Name</Label>
-              <Input type='text' required id="laststName" placeholder="Enter your Last Name" />
+              <FormField
+                control={form.control}
+                name="lastName"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel htmlFor="lastName">Last Name</FormLabel>
+                    <FormControl>
+                      <Input  placeholder="Enter your Last Name" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
             </div>
             <div className="flex flex-col space-y-1.5">
-              <Label htmlFor="email">Email</Label>
-              <Input type='email' required id="email" placeholder="Enter your Email" />
+              <FormField
+                control={form.control}
+                name="email"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel htmlFor="email">Email</FormLabel>
+                    <FormControl>
+                      <Input  placeholder="Enter your Email" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
             </div>
             <div className="flex flex-col space-y-1.5">
-              <Label htmlFor="phoneNumber">Phone Number</Label>
-              <Input type='number' required id="phoneNumber" placeholder="Enter your Phone Number" />
+              <FormField
+                control={form.control}
+                name="phoneNumber"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel htmlFor="phoneNumber">Phone Number</FormLabel>
+                    <FormControl>
+                      <Input type='number'  placeholder="Enter your phone number" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
             </div>
             <div className="flex flex-col space-y-1.5">
-              <Label htmlFor="password">Password</Label>
-              <Input required type='password' id="password" placeholder="Enter your password" />
+            <FormField
+                control={form.control}
+                name="password"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel htmlFor="password">Password</FormLabel>
+                    <FormControl>
+                      <Input  type='password' placeholder="Enter your password" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
             </div>
             <div className="flex flex-col space-y-1.5">
-              <Label htmlFor="password">Confirm Password</Label>
-              <Input required type='password' id="password" placeholder="Re-Enter your password" />
+            <FormField
+                control={form.control}
+                name="password2"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel htmlFor="password2">Confirm Password</FormLabel>
+                    <FormControl>
+                      <Input type='password'  placeholder="Re-Enter your password" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
             </div>
           </div>
-          <Button className='mt-2 hover:bg-green-300'>Create Account</Button>
+          <Button type="submit" disable={state?.isLoading ? 'true' : 'false'} className='mt-2 hover:bg-green-300'>{state?.isLoading ? <Loader /> : 'Create Account'} </Button>
+          <div>
+              {
+                state?.errorMsg?.msg && state.errorMsg?.msg != 'Not Allowed Please login' && <small className="text-red-400">{state?.errorMsg?.mg}</small>
+              }
+            </div>
         </form>
+        </Form>
       </CardContent>
       <CardFooter className='flex justify-between'>
-        <Link className="text-xs no-underline text-gray-950" href={'/admin/signin'}>Login</Link>
+        <Link className="text-xs no-underline" href={'/admin/signin'}>Login</Link>
       </CardFooter>
     </Card>
   )
